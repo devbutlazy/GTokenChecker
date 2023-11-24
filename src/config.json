@@ -1,0 +1,15 @@
+{
+  "write_tokens_to_file": true,
+  "write_only_tokens": false,
+  "print_only_tokens": false,
+  "show_guilds": true,
+  "show_flags": true,
+  "show_relationships": true,
+  "check_nitro_credits": true,
+  "mask_tokens": true,
+  "check_promotions": true,
+  "check_connections": true,
+  "check_boosts": true,
+  "check_private_channels": true,
+  "dont_show_enable_feature": true
+}
