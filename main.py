@@ -402,6 +402,7 @@ Token {masked_token} is valid
 
 async def main() -> None:
     try:
+        await utils.custom_print(utils.startup_text, color="info", print_bool=True)
         await utils.custom_print("[1] One token (input)", color="info", print_bool=True)
         await utils.custom_print("[2] Some tokens (file)", color="info", print_bool=True)
 
@@ -448,4 +449,5 @@ async def run_tasks(tasks: list[asyncio.Task]) -> None:
 
 
 if __name__ == "__main__":
+    os.system("cls" if os.name == "nt" else "clear")
     asyncio.run(main())
