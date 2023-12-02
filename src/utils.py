@@ -71,7 +71,7 @@ def count_tokens() -> int:
     return len(findall(pattern, lines))
 
 
-def gen_parse_token(tokens: str) -> tuple:
+async def gen_parse_token(tokens: str) -> tuple:
     token_list = findall(pattern, tokens)
     token_count = len(token_list)
     if token_count >= 1:
