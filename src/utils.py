@@ -77,7 +77,7 @@ def gen_parse_token(tokens: str) -> tuple:
     if token_count >= 1:
         return token_list, token_count
     else:
-        custom_print("Please provide at least one token in the 'tokens.txt' file.", color="error", print_bool=True)
+        await custom_print("Please provide at least one token in the 'tokens.txt' file.", color="error", print_bool=True)
         exit(0)
 
 
