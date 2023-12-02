@@ -136,7 +136,7 @@ async def get_tokens() -> tuple[Union[str, Any], int]:
         exit(0)
     async with aiofiles.open("src/tokens.txt", "r", errors="ignore") as file:
         lines = await file.read()
-    for token in gen_parse_token(lines):
+    for token in await gen_parse_token(lines):
         return token
 
 
