@@ -31,11 +31,13 @@ python main.py
 - [x] Check guilds (all guilds or with admin permissions)
 - [x] Show relationships (friends in account)
 - [x] Show DMs (count of DMs)
-- [ ] Progress bar
 - [x] Outbound-promotions
 - [x] Account connections
 - [x] Check boosts in account
 - [x] Input or file tokens opportunity
+- [ ] Progress bar
+- [ ] Comments to all functions
+- [ ] Some speed optimization
 
 # What's New
 
