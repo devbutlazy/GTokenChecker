@@ -29,8 +29,13 @@ async def main() -> None:
                 tokens = await TOKEN_MANIPULATION.get_tokens()
 
                 for token in tokens:
-                    TOKEN_CHECKER = TokenChecker()
-                    await TOKEN_CHECKER.check_token(token)
+                    tasks.append(
+                        asyncio.ensure_future(
+                            asyncio.shield(
+                                TokenChecker().check_token(token)
+                            )
+                        )
+                    )
                     await asyncio.sleep(0.3)
 
                 await asyncio.gather(*tasks)
