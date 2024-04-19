@@ -8,6 +8,7 @@ import utils
 
 TOKEN_MANIPULATION = TokenManipulations()
 
+
 async def main() -> None:
     try:
         await utils.custom_print(utils.startup_text, color="info", print_bool=True)
@@ -26,14 +27,12 @@ async def main() -> None:
                 await TOKEN_CHECKER.run_tasks([task])
             case 2:
                 tasks = []
-                tokens = await TOKEN_MANIPULATION.get_tokens()
+                tokens, _ = await TOKEN_MANIPULATION.get_tokens()
 
                 for token in tokens:
                     tasks.append(
                         asyncio.ensure_future(
-                            asyncio.shield(
-                                TokenChecker().check_token(token)
-                            )
+                            asyncio.shield(TokenChecker().check_token(token))
                         )
                     )
                     await asyncio.sleep(0.3)
@@ -44,7 +43,7 @@ async def main() -> None:
                     "Invalid choice", color="error", print_bool=True
                 )
 
-    except (Exception, BaseException):
+    except ValueError:
         await utils.custom_print(
             "Sorry, an error occurred. Please try again.",
             color="error",
@@ -54,4 +53,7 @@ async def main() -> None:
 
 if __name__ == "__main__":
     os.system("cls" if os.name == "nt" else "clear")
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        asyncio.run(utils.custom_print("Exiting...", color="info"))

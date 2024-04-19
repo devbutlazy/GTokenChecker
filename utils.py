@@ -1,4 +1,4 @@
-from typing import Dict, Union, List, Literal
+from typing import Dict, Optional, Union, Literal
 from datetime import datetime
 
 import aiofiles
@@ -149,7 +149,9 @@ premium_types = {
 # BASIC
 
 
-def create_needed(time: datetime) -> tuple[str, ...] | tuple[None, None, None, None]:
+def create_needed(
+    time: datetime,
+) -> Union[tuple[str, ...], tuple[None, None, None, None]]:
     file_names = [
         "valid_tokens.txt",
         "invalid_tokens.txt",
@@ -175,8 +177,8 @@ async def custom_print(
     color: Literal["info", "debug", "error", "warn"] = "warn",
     print_bool: bool = True,
     write_file: bool = False,
-    file: str = None,
-) -> None:
+    file: Optional[str] = None,
+) -> str:
 
     colors = {
         "info": f"\033[1;32;48m{text}\033[1;37;0m ",
@@ -196,8 +198,8 @@ async def write_to_file(info: str, file: str) -> None:
         if not isinstance(file, (str, os.PathLike)):
             raise ValueError("File must be a string or a path-like object")
 
-        async with aiofiles.open(file, "a+", encoding="utf-8", errors="ignore") as file:
-            await file.write(f"{info}\n")
+        async with aiofiles.open(file, "a+", encoding="utf-8", errors="ignore") as file:  # type: ignore
+            await file.write(f"{info}\n")  # type: ignore
     except Exception as error:
         await custom_print(
             f"Error writing to file: {error}", color="error", print_bool=True
@@ -205,13 +207,15 @@ async def write_to_file(info: str, file: str) -> None:
 
 
 def format_datetime_humanly(
-    date: datetime, format_string: Union[datetime.strptime, str] = "%d.%m.%Y %H:%M:%S"
+    date: Union[datetime, str], format_string: str = "%d.%m.%Y %H:%M:%S"
 ) -> str:
+    if isinstance(date, str):  # mypy moment
+        date = datetime.fromisoformat(date)
     return date.strftime(format_string)
 
 
 def convert_iso_to_human_readable(
-    iso: str, format_string: Union[datetime.strptime, str] = "%d.%m.%Y %H:%M:%S"
+    iso: str, format_string: str = "%d.%m.%Y %H:%M:%S"
 ) -> str:
     date = datetime.fromisoformat(iso)
     return format_datetime_humanly(date, format_string)
