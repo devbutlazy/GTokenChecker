@@ -207,7 +207,6 @@ async def write_to_file(info: str, file: str) -> None:
         )
 
 
-
 def format_datetime_humanly(
     date: datetime, format_string: Union[datetime.strptime, str] = "%d.%m.%Y %H:%M:%S"
 ) -> str:
@@ -222,6 +221,13 @@ def convert_iso_to_human_readable(
 
 
 # TOKEN MANIPULATION
+
+
+mask_token = lambda token: (
+    ".".join(token.split(".")[:-1] + ["*" * len(token.split(".")[-1])])
+    if len(token.split(".")) > 1
+    else token
+)
 
 
 async def gen_parse_token(tokens: str) -> tuple:
@@ -254,6 +260,7 @@ def count_tokens() -> int:
     with open("src/tokens.txt", "r", errors="ignore") as file:
         lines = file.read()
     return len(findall(pattern, lines))
+
 
 # DISCORD API
 

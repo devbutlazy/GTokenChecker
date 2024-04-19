@@ -1,0 +1,99 @@
+
+~~~~~~~~~~~~~~~ INFO ~~~~~~~~~~~~~~~
+Token NzI4MzAyNjQ2NzQxNDM0NTMz.GHl9jo.************************************** is valid
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~ Account INFO ~~~~~~~~~~~
+[ ID ]: 728302646741434533
+[ Name ]: ggvpteam
+[ Bio ]: None
+[ Locale ]: uk
+[ Avatar URL ]: None
+[ Banner URL ]: None
+[ E-mail ]: playtimeslifes@gmail.com
+[ E-mail verified bool ] True
+[ Phone number ]: +79096713256
+[ 2FA enabled ]: False
+[ Created at ]: 02.07.2020 20:34:42
+[ Public Flags ]: No flags
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Nitro INFO ~~~~~~~~~~~~
+[ Nitro ]: No nitro
+[ Nitro started ]: No nitro
+[ Nitro ends ]: No nitro
+[ Nitro classic/boost credits  ]: 0/0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Payments ~~~~~~~~~~
+No payments on account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Guilds ~~~~~~~~~~~
+ID: 701810050502492241 | Name: 𝗖𝗟𝗨𝗕 | Owner: False
+ID: 732877226248241204 | Name: Night • Party 🧨 | Owner: True
+ID: 918633497986498600 | Name: UNIOVERSE | Owner: False
+ID: 1007542929323204669 | Name: Deleted (pls leave) | Owner: True
+ID: 1011227756706676806 | Name: UA Leauge | Owner: True
+ID: 1054504978867302531 | Name: Destroy Que>>All | Owner: True
+ID: 1087974995088654389 | Name: Que Defense™ | Owner: True
+ID: 1223287816642105344 | Name: Сервер користувача GGVPTEAM | Owner: True
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Gifts info ~~~~~~~~~~
+No gifts on account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Promotions ~~~~~~~~~~
+No promotions in account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Account connections ~~~~~~~~~~
+No connections in account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Boosts ~~~~~~~~~~
+No boosts on account
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Relationships ~~~~~~~~~~
+[Total relationships]: 2
+
+[ # ]: 1
+[ ID ]: 528553209250185236
+[ Avatar URL ]: https://cdn.discordapp.com/avatars/528553209250185236/9f1077195fc8d9e46f1a381bba3827b1.png
+[ Account Creation ]: 29.12.2018 14:41:45
+[ Nickname ]: aheront_
+[ Friend type ]: Friend
+[ Flags ]: No flags
+[ # ]: 2
+[ ID ]: 719870521591988224
+[ Avatar URL ]: https://cdn.discordapp.com/avatars/719870521591988224/cbe75910416d4296dd4d579adb5d1b59.png
+[ Account Creation ]: 09.06.2020 14:08:26
+[ Nickname ]: horny.banan
+[ Friend type ]: Block
+[ Flags ]: House Bravery Member
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~ Private channels ~~~~~~~~~~
+[Total private channels]: 1
+
+Private channel №1
+[ ID ]: 1099962220969988167
+[ Friend type ]: Friend
+[ Last message id ]: 1229083983682473984
+[ Channel created at ]: 24.04.2023 10:37:09
+
+[ Recipients ]:
+[ ID ]: 854823004932014090
+[ Avatar URL ]: https://cdn.discordapp.com/avatars/854823004932014090/13f94826facce44b16ccb4f147187632.png
+[ Account Creation ]: 16.06.2021 23:41:26
+[ Global Name ]: KREOSAN
+[ Display Name ]: kreosan5411
+[ Bot ]: False
+[ Flags ]: House Brilliance Member
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

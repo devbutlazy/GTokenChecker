@@ -4,7 +4,6 @@ import os
 from lib.TokenChecker import main as lib
 import utils
 
-
 TOKEN_CHECKER = lib.TokenChecker()
 
 async def main() -> None:
