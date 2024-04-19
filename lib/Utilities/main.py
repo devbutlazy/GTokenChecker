@@ -16,16 +16,18 @@ class TokenManipulations:
     def mask_token(token: str) -> str:
         return ".".join(token.split(".")[:-1] + ["*" * len(token.split(".")[-1])])
 
+
     async def gen_parse_token(self, tokens: str) -> tuple:
-        if self.count_tokens() >= 1:
-            return findall(self.pattern, tokens), self.count_tokens()
+        tokens = findall(self.pattern, tokens)
+        if len(tokens) >= 1:
+            return tokens, len(tokens)
         else:
             await utils.custom_print(
                 "Please provide at least one token in the 'tokens.txt' file.",
                 color="error",
                 print_bool=True,
             )
-            exit(0)
+
 
     async def get_tokens(self) -> tuple[Union[str, Any], int]:
         if not os.path.exists("src/tokens.txt"):
@@ -39,6 +41,7 @@ class TokenManipulations:
             lines = await file.read()
         for token in await self.gen_parse_token(lines):
             return token
+
 
     def count_tokens(self) -> int:
         with open("src/tokens.txt", "r", errors="ignore") as file:
@@ -255,9 +258,7 @@ class DiscordAPIManipulation:
                 cooldown_ends_at = (
                     "No cooldown"
                     if boost_info["cooldown_ends_at"] is None
-                    else utils.convert_iso_to_human_readable(
-                        boost_info["cooldown_ends_at"]
-                    )
+                    else utils.convert_iso_to_human_readable(boost_info["cooldown_ends_at"])
                 )
 
                 user_boosts[boost_id] = [

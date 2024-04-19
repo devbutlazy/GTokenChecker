@@ -5,9 +5,8 @@ from lib.TokenChecker.main import TokenChecker
 from lib.Utilities.main import TokenManipulations
 import utils
 
-TOKEN_CHECKER = TokenChecker()
-TOKEN_MANIPULATION = TokenManipulations()
 
+TOKEN_MANIPULATION = TokenManipulations()
 
 async def main() -> None:
     try:
@@ -20,6 +19,8 @@ async def main() -> None:
         choice = int(input(">>> "))
         match choice:
             case 1:
+                TOKEN_CHECKER = TokenChecker()
+
                 token = input("Enter token: ")
                 task = asyncio.create_task(TOKEN_CHECKER.check_token(token))
                 await TOKEN_CHECKER.run_tasks([task])
@@ -28,10 +29,11 @@ async def main() -> None:
                 tokens = await TOKEN_MANIPULATION.get_tokens()
 
                 for token in tokens:
-                    tasks.append(asyncio.create_task(TOKEN_CHECKER.check_token(token)))
+                    TOKEN_CHECKER = TokenChecker()
+                    await TOKEN_CHECKER.check_token(token)
                     await asyncio.sleep(0.3)
 
-                await TOKEN_CHECKER.run_tasks(tasks)
+                await asyncio.gather(*tasks)
             case _:
                 await utils.custom_print(
                     "Invalid choice", color="error", print_bool=True
