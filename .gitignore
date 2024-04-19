@@ -1,1 +1,4 @@
 *__pycache__
+*.txt
+!requirements.txt
+!tokens.txt
