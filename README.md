@@ -2,11 +2,15 @@
 
 Advanced && Fast Discord Token Checker Tool
 
+# Important Information
+- Original version author: [Snaky1a](https://github.com/Snaky1a)
+- Rewritten and modified version author: [LazyDev](https://github.com/devbutlazy)
 # Features
 
-- **100 tokens per 2 seconds**
-- **Two opportunities (input, file)**
-- **A variety of different information**
+- **100 tokens check in 2 seconds**
+- **Two token-input opportunities (hand-input, file)**
+- **ALL information about token(s)**
+- **The best Discord Token Checker on GitHub**
 - **And more...**
 
 # Installation
@@ -18,14 +22,14 @@ git clone https://github.com/devbutlazy/GTokenChecker
 ```
 `3` Go to`cmd.exe` and type `cd <PROJECT_PATH>`  
 `4` Type `pip install -r requirements.txt` to install required packages  
-`5` Customize the `src/config.json` file to your needs  
-`6` Run the program
+`5` Run the program
 ```
 python main.py
 ```
 
 # TODO
 
+- [x] Reach maximum speed of 100 tokens in 2 seconds
 - [x] Check nitro credits if available in account
 - [x] Check credit cards in account
 - [x] Check guilds (all guilds or with admin permissions)
@@ -34,18 +38,20 @@ python main.py
 - [x] Outbound-promotions
 - [x] Account connections
 - [x] Check boosts in account
-- [x] Input or file tokens opportunity
-- [ ] Progress bar
+- [x] Hand-input or file tokens opportunity
 - [ ] Comments to all functions
-- [ ] Some speed optimization
+- [ ] Progress bar
+
 
 # What's New
 
 ### Rewritten version [v2.0.0]
     - Code follows the PEP-8 and MyPy rules
-    - Opportunity to input a token or read tokens from file
+    - Code is now using Object-Oriented-Programming
+    - Opportunity to hand-input a token or read multiple tokens from file
     - Faster and more efficient information
-    - Rewritten all the functions, to v10 discord API
-    - Better error handling and their design
-    - Everything to Object-Oriented-Programming
+    - Rewritten all the functions, to v10 Discord API
+    - Better reponse`s design and their text
+    - Better error handling
+    
 ### License: GNU GPL 3
