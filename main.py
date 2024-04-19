@@ -1,10 +1,13 @@
 import asyncio
 import os
 
-from lib.TokenChecker import main as lib
+from lib.TokenChecker.main import TokenChecker
+from lib.Utilities.main import TokenManipulations
 import utils
 
-TOKEN_CHECKER = lib.TokenChecker()
+TOKEN_CHECKER = TokenChecker()
+TOKEN_MANIPULATION = TokenManipulations()
+
 
 async def main() -> None:
     try:
@@ -22,7 +25,7 @@ async def main() -> None:
                 await TOKEN_CHECKER.run_tasks([task])
             case 2:
                 tasks = []
-                tokens = await utils.get_tokens()
+                tokens = await TOKEN_MANIPULATION.get_tokens()
 
                 for token in tokens:
                     tasks.append(asyncio.create_task(TOKEN_CHECKER.check_token(token)))
