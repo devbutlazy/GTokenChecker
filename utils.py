@@ -37,6 +37,7 @@ Token {masked_token} is valid
 [ E-mail verified bool ] {verified}
 [ Phone number ]: {phone}
 [ 2FA enabled ]: {mfa}
+[ Authenticator types ]: {auth_types}
 [ Created at ]: {user_creation}
 [ Public Flags ]: {flags}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,6 +145,12 @@ premium_types = {
     0: "No nitro",
     1: "Nitro Classic",
     2: "Nitro Boost",
+}
+
+auth_types = {
+    1: "WEBAUTHN",
+    2: "TOTP",
+    3: "SMS"
 }
 
 # BASIC

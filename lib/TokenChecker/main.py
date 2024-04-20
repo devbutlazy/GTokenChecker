@@ -89,6 +89,7 @@ class TokenChecker:
         """
         try:
             _, info = await self.DiscordAPIManipulation.get_me(headers=self.headers)
+            print(info)
             if isinstance(info, dict):
                 locale = info.get("locale")
             else:
@@ -235,7 +236,7 @@ class TokenChecker:
             )
 
             private_channels_text += (
-                f"[Total private channels]: {len(direct_messages)}\n"
+                f"[ Total private channels ]: {len(direct_messages)}\n"
             )
             private_channels_text += "".join(text for text in direct_messages)
 
@@ -257,6 +258,7 @@ class TokenChecker:
             phone = info.get("phone")
             verified = info["verified"]
             mfa = info["mfa_enabled"]
+            auth_types = info.get("authenticator_types", "None")
             bio = info.get("bio")
             user_id = info["id"]
 
@@ -272,6 +274,10 @@ class TokenChecker:
                 verified=verified,
                 phone=phone,
                 mfa=mfa,
+                auth_types=", ".join(
+                    utils.auth_types.get(auth_type, "None") for auth_type in auth_types
+                )
+                or "None",
                 user_creation=user_creation,
                 flags=", ".join(flags) if flags else "No flags",
                 premium_type=premium_type,

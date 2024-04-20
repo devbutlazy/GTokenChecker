@@ -38,8 +38,9 @@ python main.py
 - [x] Outbound-promotions
 - [x] Account connections
 - [x] Check boosts in account
+- [x] Add authenticator types
 - [x] Hand-input or file tokens opportunity
-- [ ] Comments to all functions
+- [x] Comments to all functions
 - [ ] Progress bar
 
 
@@ -51,6 +52,8 @@ python main.py
     - Opportunity to hand-input a token or read multiple tokens from file
     - Faster and more efficient information
     - Rewritten all the functions, to v10 Discord API
+    - User mfa authenticator types
+    - Progress bar to monitor the tool progress
     - Better reponse`s design and their text
     - Better error handling
     
