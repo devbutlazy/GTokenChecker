@@ -17,12 +17,12 @@ async def main() -> None:
     """
     try:
         await utils.custom_print(utils.startup_text, color="info", print_bool=True)
-        await utils.custom_print("[1] One token (input)", color="info", print_bool=True)
+        await utils.custom_print("[1] One token (hand-input)", color="info", print_bool=True)
         await utils.custom_print(
-            "[2] Some tokens (file)", color="info", print_bool=True
+            "[2] Two or more tokens (file)", color="info", print_bool=True
         )
 
-        choice = int(input(">>> "))
+        choice = int(input("\033[1;33;48m>>> \033[1;37;0m"))
         match choice:
             case 1:
                 TOKEN_CHECKER = TokenChecker()

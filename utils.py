@@ -206,7 +206,7 @@ async def custom_print(
         "info": f"\033[1;32;48m{text}\033[1;37;0m ",
         "debug": f"\033[1;34;48m{text}\033[1;37;0m",
         "error": f"\033[1;31;48m{text}\033[1;37;0m",
-        "warn": f"\033[1;33;48m{text}\033[1;37;0m ",
+        "warn": f"\033[1;33;48m{text}\033[1;37;0m",
     }
 
     print(colors[color]) if print_bool else None
