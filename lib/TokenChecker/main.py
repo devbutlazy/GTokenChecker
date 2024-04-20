@@ -89,7 +89,6 @@ class TokenChecker:
         """
         try:
             _, info = await self.DiscordAPIManipulation.get_me(headers=self.headers)
-            print(info)
             if isinstance(info, dict):
                 locale = info.get("locale")
             else:
