@@ -39,7 +39,7 @@ python main.py
 - [x] Account connections
 - [x] Check boosts in account
 - [x] Hand-input or file tokens opportunity
-- [ ] Comments to all functions
+- [x] Comments to all functions
 - [ ] Progress bar
 
 
