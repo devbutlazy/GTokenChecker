@@ -1,4 +1,4 @@
-from typing import Any, Coroutine, Dict, Union, List, Tuple, Optional
+from typing import Any, Coroutine, Dict, NoReturn, Union, List, Tuple, Optional
 from datetime import datetime
 import utils
 
@@ -16,32 +16,34 @@ class TokenManipulations:
     def mask_token(token: str) -> str:
         return ".".join(token.split(".")[:-1] + ["*" * len(token.split(".")[-1])])
 
+    async def gen_parse_token(self, tokens: str) -> Tuple[List[Any], int]:
+        if self.count_tokens() >= 1:
+            return findall(self.pattern, tokens), self.count_tokens()
 
-    async def gen_parse_token(self, tokens: str) -> tuple:
-        tokens = findall(self.pattern, tokens)
-        if len(tokens) >= 1:
-            return tokens, len(tokens)
-        else:
-            await utils.custom_print(
-                "Please provide at least one token in the 'tokens.txt' file.",
-                color="error",
-                print_bool=True,
-            )
+        await utils.custom_print(
+            "Please provide at least one token in the 'tokens.txt' file.",
+            color="error",
+            print_bool=True,
+        )
+        return exit(0)  # type: ignore
 
-
-    async def get_tokens(self) -> tuple[Union[str, Any], int]:
+    async def get_tokens(self) -> tuple[List[str], int]:
+        """
+        Read tokens from file and return them
+        """
         if not os.path.exists("src/tokens.txt"):
             await utils.custom_print(
                 "Error: Please create a 'tokens.txt' file!",
                 color="error",
                 print_bool=True,
             )
-            exit(0)
+            return  # type: ignore
+
         async with aiofiles.open("src/tokens.txt", "r", errors="ignore") as file:
             lines = await file.read()
-        for token in await self.gen_parse_token(lines):
-            return token
 
+        tokens, count = await self.gen_parse_token(lines)
+        return tokens, count
 
     def count_tokens(self) -> int:
         with open("src/tokens.txt", "r", errors="ignore") as file:
@@ -54,8 +56,10 @@ class DiscordAPIManipulation:
         self.BASE_URL = "https://discord.com/"
 
     async def get_me(
-        self, headers: Dict[str, str]
-    ) -> Union[Coroutine[Any, Any, None], Dict[str, Any], None, Tuple[int, str]]:
+        self,
+        headers: Dict[str, str],
+        # ) -> Union[Coroutine[Any, Any, None], Dict[str, Any], None, Tuple[int, str]]:
+    ) -> Tuple[int, Any]:
         user_info = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -100,10 +104,10 @@ class DiscordAPIManipulation:
 
     async def check_payments(
         self, headers: Dict[str, str]
-    ) -> Union[Optional[List[str]], int]:
+    ) -> Union[List[Optional[str]], int]:
         cc_digits = {"american express": "3", "visa": "4", "mastercard": "5"}
         account_cards = []
-        card_info = None
+        card_info = payment_sources = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
             endpoint = "/api/v10/users/@me/billing/payment-sources"
@@ -177,7 +181,7 @@ class DiscordAPIManipulation:
     async def get_nitro_info(
         self, headers: Dict[str, str]
     ) -> Tuple[Union[str, None], Union[str, None]]:
-        nitro_start, nitro_end = None, None
+        nitro_start = nitro_end = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
             endpoint = "/api/v10/users/@me/billing/subscriptions"
@@ -257,8 +261,10 @@ class DiscordAPIManipulation:
                 canceled = boost_info["canceled"]
                 cooldown_ends_at = (
                     "No cooldown"
-                    if boost_info["cooldown_ends_at"] is None
-                    else utils.convert_iso_to_human_readable(boost_info["cooldown_ends_at"])
+                    if not boost_info.get("cooldown_ends_at")
+                    else utils.convert_iso_to_human_readable(
+                        boost_info.get("cooldown_ends_at")
+                    )
                 )
 
                 user_boosts[boost_id] = [
@@ -338,6 +344,7 @@ class DiscordAPIManipulation:
 
     async def get_dms(self, headers: Dict[str, str]) -> List[str]:
         direct_messages: List[str] = []
+        dms_json = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
             endpoint = "/api/v10/users/@me/channels"
@@ -378,11 +385,9 @@ class DiscordAPIManipulation:
 
         return direct_messages
 
-    def get_account_creation(
-        self, snowflake_id: str, to_humanly: bool = True
-    ) -> Union[datetime, str]:
+    def get_account_creation(self, snowflake_id: str, to_humanly: bool = True) -> str:
         timestamp = (int(snowflake_id) >> 22) + 1420070400000
-        creation_time = datetime.fromtimestamp(timestamp / 1000.0)
+        creation_time = str(datetime.fromtimestamp(timestamp / 1000.0))
 
         if to_humanly:
             creation_time = utils.format_datetime_humanly(creation_time)

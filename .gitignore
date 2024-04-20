@@ -3,3 +3,5 @@
 !requirements.txt
 !tokens.txt
 results/*
+venv/
+.mypy_cache/
