@@ -14,9 +14,21 @@ class TokenManipulations:
 
     @staticmethod
     def mask_token(token: str) -> str:
+        """
+        Mask the given token
+
+        :param token: the token to mask
+        :return: the masked token
+        """
         return ".".join(token.split(".")[:-1] + ["*" * len(token.split(".")[-1])])
 
     async def gen_parse_token(self, tokens: str) -> Tuple[List[Any], int]:
+        """
+        Read tokens from file with a patern and return them
+
+        :param tokens: the tokens to read
+        :return: a list of tokens
+        """
         if self.count_tokens() >= 1:
             return findall(self.pattern, tokens), self.count_tokens()
 
@@ -30,6 +42,8 @@ class TokenManipulations:
     async def get_tokens(self) -> tuple[List[str], int]:
         """
         Read tokens from file and return them
+
+        :return: a list of tokens
         """
         if not os.path.exists("src/tokens.txt"):
             await utils.custom_print(
@@ -46,6 +60,11 @@ class TokenManipulations:
         return tokens, count
 
     def count_tokens(self) -> int:
+        """
+        Count the number of tokens in the 'tokens.txt' file
+
+        :return: the number of tokens
+        """
         with open("src/tokens.txt", "r", errors="ignore") as file:
             lines = file.read()
         return len(findall(self.pattern, lines))
@@ -57,9 +76,14 @@ class DiscordAPIManipulation:
 
     async def get_me(
         self,
-        headers: Dict[str, str],
-        # ) -> Union[Coroutine[Any, Any, None], Dict[str, Any], None, Tuple[int, str]]:
+        headers: Dict[str, str]
     ) -> Tuple[int, Any]:
+        """
+        Get basic user information
+
+        :param headers: the headers to use
+        :return: response status, user basic information
+        """
         user_info = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -75,6 +99,13 @@ class DiscordAPIManipulation:
     async def get_promotions(
         self, headers: Dict[str, str], locale: Optional[str] = None
     ) -> Dict[str, Any]:
+        """
+        Get all user promotions
+
+        :param headers: the headers to use
+        :param locale: the locale to use
+        :return: user promotions
+        """
         user_promotions: Dict[str, Any] = {}
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -105,6 +136,12 @@ class DiscordAPIManipulation:
     async def check_payments(
         self, headers: Dict[str, str]
     ) -> Union[List[Optional[str]], int]:
+        """
+        Check all user payments
+
+        :param headers: the headers to use
+        :return: payment sources or error code
+        """
         cc_digits = {"american express": "3", "visa": "4", "mastercard": "5"}
         account_cards = []
         card_info = payment_sources = None
@@ -166,6 +203,12 @@ class DiscordAPIManipulation:
         return account_cards
 
     async def check_nitro_credit(self, headers: Dict[str, str]) -> Tuple[int, int]:
+        """
+        Check all user nitro credits
+
+        :param headers: the headers to use
+        :return: classic nitro credits and boost nitro credits
+        """
         nitro_credits = {"classic_credits": 0, "boost_credits": 0}
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -181,6 +224,12 @@ class DiscordAPIManipulation:
     async def get_nitro_info(
         self, headers: Dict[str, str]
     ) -> Tuple[Union[str, None], Union[str, None]]:
+        """
+        Get nitro start and end dates
+
+        :param headers: the headers to use
+        :return: nitro start and end dates
+        """
         nitro_start = nitro_end = None
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -205,6 +254,12 @@ class DiscordAPIManipulation:
         return nitro_start, nitro_end
 
     async def get_guilds(self, headers: Dict[str, str]) -> Dict[str, list[str]]:
+        """
+        Get all user guilds information
+
+        :param headers: the headers to use
+        :return: guilds information (id, name, is_user_owner)
+        """
         guilds_info: Dict[str, list[str]] = {}
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -221,6 +276,12 @@ class DiscordAPIManipulation:
         return guilds_info
 
     async def get_gifts(self, headers: Dict[str, str]) -> List[str]:
+        """
+        Get all user subscription plans
+
+        :param headers: the headers to use
+        :return: user subscription plans
+        """
         user_gifts: List[str] = []
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -235,6 +296,12 @@ class DiscordAPIManipulation:
         return user_gifts
 
     async def check_boosts(self, headers: Dict[str, str]) -> Dict[str, Any]:
+        """
+        Check all user boosts
+
+        :param headers: the headers to use
+        :return: user boosts
+        """
         user_boosts: Dict[str, Any] = {}
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -279,6 +346,12 @@ class DiscordAPIManipulation:
         return user_boosts
 
     async def get_connections(self, headers: Dict[str, str]) -> Dict[str, Any]:
+        """
+        Get all user connections
+
+        :param headers: the headers to use
+        :return: user connections
+        """
         user_connections: Dict[str, Any] = {}
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -306,6 +379,12 @@ class DiscordAPIManipulation:
         return user_connections
 
     async def get_relationships(self, headers: Dict[str, str]) -> Tuple[int, List[str]]:
+        """
+        Get all user relationships
+
+        :param headers: the headers to use
+        :return: user relationships
+        """
         relationship_info: List[str] = []
 
         async with ClientSession(base_url=self.BASE_URL) as session:
@@ -343,6 +422,12 @@ class DiscordAPIManipulation:
         return len(relationship_info), relationship_info
 
     async def get_dms(self, headers: Dict[str, str]) -> List[str]:
+        """
+        Get all user direct messages
+
+        :param headers: the headers to use
+        :return: user direct messages
+        """
         direct_messages: List[str] = []
         dms_json = None
 
@@ -386,6 +471,13 @@ class DiscordAPIManipulation:
         return direct_messages
 
     def get_account_creation(self, snowflake_id: str, to_humanly: bool = True) -> str:
+        """
+        Get account creation time from snowflake id
+
+        :param snowflake_id: snowflake id
+        :param to_humanly: convert to humanly readable format
+        :return: account creation time  
+        """
         timestamp = (int(snowflake_id) >> 22) + 1420070400000
         creation_time = str(datetime.fromtimestamp(timestamp / 1000.0))
 
@@ -395,6 +487,12 @@ class DiscordAPIManipulation:
         return creation_time
 
     def get_user_flags(self, public_flags: int) -> List[str]:
+        """
+        Get user flags from public flags
+
+        :param public_flags: public flags
+        :return: user flags
+        """
         flags_all: List[str] = []
 
         for key, value in utils.flags.items():

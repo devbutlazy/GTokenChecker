@@ -27,6 +27,12 @@ class TokenChecker:
         self.DiscordAPIManipulation = DiscordAPIManipulation()
 
     async def run_tasks(self, tasks: list[asyncio.Task]) -> None:
+        """
+        Run the given tasks
+
+        :param tasks: the tasks to run
+        :return: None
+        """
         os.system("cls" if os.name == "nt" else "clear")
 
         try:
@@ -37,6 +43,12 @@ class TokenChecker:
             )
 
     async def check_token(self, token: str) -> None:
+        """
+        Check if the given token is valid
+
+        :param token: the token to check
+        :return: None
+        """
         self.token = token
         self.masked_token = self.TokenManipulations.mask_token(self.token)
 
@@ -68,16 +80,13 @@ class TokenChecker:
                 print_bool=True,
             )
         )
-        # if handler:
-        #     await handler()
-        # else:
-        #     await utils.custom_print(
-        #         f"An unexpected error occurred! Status: {status}",
-        #         color="error",
-        #         print_bool=True,
-        #     )
 
     async def handle_200(self) -> None:
+        """
+        Handle 200 status while checking token(s)
+
+        :return: None
+        """
         try:
             _, info = await self.DiscordAPIManipulation.get_me(headers=self.headers)
             if isinstance(info, dict):
@@ -279,8 +288,6 @@ class TokenChecker:
                 private_channels_text=private_channels_text,
             )
 
-            # os.system("cls" if os.name == "nt" else "clear")
-
             await utils.custom_print(
                 text=text,
                 color="info",
@@ -300,6 +307,11 @@ class TokenChecker:
             traceback.print_exc()
 
     async def handle_401(self):
+        """
+        Handle 401 errors while checking token(s)
+
+        :return: None
+        """
         await utils.custom_print(
             f"Token {self.masked_token} is invalid!",
             color="error",
@@ -309,6 +321,11 @@ class TokenChecker:
         )
 
     async def handle_403(self):
+        """
+        Handle 403 errors while checking token(s)
+
+        :return: None
+        """
         await utils.custom_print(
             f"Token {self.masked_token} phone locked!",
             color="error",

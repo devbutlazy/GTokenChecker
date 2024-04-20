@@ -10,6 +10,11 @@ TOKEN_MANIPULATION = TokenManipulations()
 
 
 async def main() -> None:
+    """
+    Start all the tasks, and wait for the input
+
+    :return: None
+    """
     try:
         await utils.custom_print(utils.startup_text, color="info", print_bool=True)
         await utils.custom_print("[1] One token (input)", color="info", print_bool=True)
