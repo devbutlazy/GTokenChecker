@@ -1,20 +1,19 @@
-import asyncio
-import os
-from datetime import datetime
-from typing import Optional
-
-import utils
-from lib.Utilities.main import TokenManipulations, DiscordAPIManipulation
 import traceback
+from typing import Optional
+from datetime import datetime
+
+import static
+import utils
+from lib.discord.main import DiscordAPI, DiscordToken
 
 
 class TokenChecker:
     def __init__(self) -> None:
-        self.headers = utils.headers
+        self.headers = static.headers
         self.token: Optional[str] = None
         self.masked_token: Optional[str] = None
 
-        # self.all_tokens = self.TokenManipulations.count_tokens()
+        # self.all_tokens = self.DiscordToken.count_tokens()
         self.valid: Optional[str]
         self.invalid: Optional[str]
         self.phone_lock: Optional[str]
@@ -23,24 +22,8 @@ class TokenChecker:
         self.valid, self.invalid, self.phone_lock, self.nitro = utils.create_needed(
             datetime.now()
         )
-        self.TokenManipulations = TokenManipulations()
-        self.DiscordAPIManipulation = DiscordAPIManipulation()
-
-    async def run_tasks(self, tasks: list[asyncio.Task]) -> None:
-        """
-        Run the given tasks
-
-        :param tasks: the tasks to run
-        :return: None
-        """
-        os.system("cls" if os.name == "nt" else "clear")
-
-        try:
-            await asyncio.gather(*tasks)
-        except (BaseException, ExceptionGroup) as load_error:
-            await utils.custom_print(
-                f"An error occurred: {load_error}", color="error", print_bool=True
-            )
+        self.DiscordToken = DiscordToken()
+        self.DiscordAPI = DiscordAPI()
 
     async def check_token(self, token: str) -> None:
         """
@@ -50,20 +33,20 @@ class TokenChecker:
         :return: None
         """
         self.token = token
-        self.masked_token = self.TokenManipulations.mask_token(self.token)
+        self.masked_token = self.DiscordToken.mask_token(self.token)
 
         headers = self.headers.copy()
         headers["Authorization"] = self.token
         self.headers = headers
 
-        status, _ = await self.DiscordAPIManipulation.get_me(headers=self.headers)
+        status, _ = await self.DiscordAPI.get_me(headers=self.headers)
 
         status_actions = {
             200: self.handle_200,
             403: self.handle_403,
             401: self.handle_401,
         }
-        await utils.custom_print(
+        utils.custom_print(
             f"Please wait, fetching information...",
             color="warn",
             print_bool=True,
@@ -74,7 +57,7 @@ class TokenChecker:
         (
             await handler()
             if handler
-            else await utils.custom_print(
+            else utils.custom_print(
                 f"An unexpected error occurred! Status: {status}",
                 color="error",
                 print_bool=True,
@@ -88,15 +71,15 @@ class TokenChecker:
         :return: None
         """
         try:
-            _, info = await self.DiscordAPIManipulation.get_me(headers=self.headers)
+            _, info = await self.DiscordAPI.get_me(headers=self.headers)
             if isinstance(info, dict):
                 locale = info.get("locale")
             else:
                 return await self.handle_401()
 
-            user_creation = self.DiscordAPIManipulation.get_account_creation(info["id"])
+            user_creation = self.DiscordAPI.get_account_creation(info["id"])
 
-            sections = utils.sections.values()
+            sections = static.sections.values()
             (
                 guilds_text,
                 payments_text,
@@ -108,24 +91,20 @@ class TokenChecker:
                 private_channels_text,
             ) = sections
 
-            flags = self.DiscordAPIManipulation.get_user_flags(info["public_flags"])
-            premium_type = utils.premium_types.get(info["premium_type"], "Nitro Basic")
+            flags = self.DiscordAPI.get_user_flags(info["public_flags"])
+            premium_type = static.premium_types.get(info["premium_type"], "Nitro Basic")
 
             if premium_type != "No nitro":
-                nitro_start, nitro_end = (
-                    await self.DiscordAPIManipulation.get_nitro_info(
-                        headers=self.headers
-                    )
+                nitro_start, nitro_end = await self.DiscordAPI.get_nitro_info(
+                    headers=self.headers
                 )
             else:
                 nitro_start = nitro_end = "No nitro"
 
             classic_credits, nitro_boost_credits = (
-                await self.DiscordAPIManipulation.check_nitro_credit(
-                    headers=self.headers
-                )
+                await self.DiscordAPI.check_nitro_credit(headers=self.headers)
             )
-            gifts = await self.DiscordAPIManipulation.get_gifts(headers=self.headers)
+            gifts = await self.DiscordAPI.get_gifts(headers=self.headers)
 
             nitro_credits = (
                 f"[ Nitro classic/boost credits  ]: "
@@ -140,9 +119,7 @@ class TokenChecker:
 
             # You need to verify your account in order to perform this action.
             if (
-                payments := await self.DiscordAPIManipulation.check_payments(
-                    headers=self.headers
-                )
+                payments := await self.DiscordAPI.check_payments(headers=self.headers)
             ) != 403 and isinstance(payments, list):
                 payments_text += (
                     "".join(f"{payment}\n" for payment in payments)
@@ -150,7 +127,7 @@ class TokenChecker:
                     else "No payments on account"
                 )
             else:
-                await utils.custom_print(
+                utils.custom_print(
                     f"Token {self.masked_token} phone locked!",
                     color="error",
                     print_bool=True,
@@ -159,14 +136,14 @@ class TokenChecker:
                 )
                 return  # type: ignore
 
-            count, relationships = await self.DiscordAPIManipulation.get_relationships(
+            count, relationships = await self.DiscordAPI.get_relationships(
                 headers=self.headers
             )
 
             rel_text += f"[ Total relationships ]: {count}\n"
             rel_text += "".join(text for text in relationships)
 
-            guilds = await self.DiscordAPIManipulation.get_guilds(headers=self.headers)
+            guilds = await self.DiscordAPI.get_guilds(headers=self.headers)
             guilds_text += (
                 "".join(
                     f"ID: {_id} | Name: {name} | Owner: {owner}\n"
@@ -176,9 +153,7 @@ class TokenChecker:
                 else "No guilds in account"
             )
 
-            connections = await self.DiscordAPIManipulation.get_connections(
-                headers=self.headers
-            )
+            connections = await self.DiscordAPI.get_connections(headers=self.headers)
             connections_text += (
                 "".join(
                     f"Connection type: {conn_type} | Nickname: {name} | "
@@ -196,7 +171,7 @@ class TokenChecker:
             )
 
             if locale:
-                promotions = await self.DiscordAPIManipulation.get_promotions(
+                promotions = await self.DiscordAPI.get_promotions(
                     headers=self.headers, locale=locale
                 )
                 promotions_text += (
@@ -209,9 +184,7 @@ class TokenChecker:
                     else "No promotions in account"
                 )
 
-            boosts = await self.DiscordAPIManipulation.check_boosts(
-                headers=self.headers
-            )
+            boosts = await self.DiscordAPI.check_boosts(headers=self.headers)
             boosts_text += (
                 "".join(
                     f"Boost status: {boost_status} | "
@@ -230,9 +203,7 @@ class TokenChecker:
                 else "No boosts on account"
             )
 
-            direct_messages = await self.DiscordAPIManipulation.get_dms(
-                headers=self.headers
-            )
+            direct_messages = await self.DiscordAPI.get_dms(headers=self.headers)
 
             private_channels_text += (
                 f"[ Total private channels ]: {len(direct_messages)}\n"
@@ -261,7 +232,7 @@ class TokenChecker:
             bio = info.get("bio")
             user_id = info["id"]
 
-            text = utils.text.format(
+            text = static.text.format(
                 masked_token=self.masked_token,
                 user_id=user_id,
                 username=username,
@@ -274,7 +245,7 @@ class TokenChecker:
                 phone=phone,
                 mfa=mfa,
                 auth_types=", ".join(
-                    utils.auth_types.get(auth_type, "None") for auth_type in auth_types
+                    static.auth_types.get(auth_type, "None") for auth_type in auth_types
                 )
                 or "None",
                 user_creation=user_creation,
@@ -293,7 +264,7 @@ class TokenChecker:
                 private_channels_text=private_channels_text,
             )
 
-            await utils.custom_print(
+            utils.custom_print(
                 text=text,
                 color="info",
                 print_bool=True,
@@ -302,7 +273,7 @@ class TokenChecker:
             )
 
             if premium_type != "No nitro":
-                await utils.custom_print(
+                utils.custom_print(
                     text=text,
                     print_bool=False,
                     write_file=True,
@@ -317,7 +288,7 @@ class TokenChecker:
 
         :return: None
         """
-        await utils.custom_print(
+        utils.custom_print(
             f"Token {self.masked_token} is invalid!",
             color="error",
             print_bool=True,
@@ -331,7 +302,7 @@ class TokenChecker:
 
         :return: None
         """
-        await utils.custom_print(
+        utils.custom_print(
             f"Token {self.masked_token} phone locked!",
             color="error",
             print_bool=True,

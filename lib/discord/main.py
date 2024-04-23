@@ -1,14 +1,16 @@
-from typing import Any, Coroutine, Dict, NoReturn, Union, List, Tuple, Optional
+import os
 from datetime import datetime
-import utils
+from re import findall
+from typing import Any, Dict, Union, List, Tuple, Optional
 
 import aiofiles
 from aiohttp import ClientSession
-import os
-from re import findall
+
+import static
+import utils
 
 
-class TokenManipulations:
+class DiscordToken:
     def __init__(self) -> None:
         self.pattern = r"\b[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b"
 
@@ -32,7 +34,7 @@ class TokenManipulations:
         if self.count_tokens() >= 1:
             return findall(self.pattern, tokens), self.count_tokens()
 
-        await utils.custom_print(
+        utils.custom_print(
             "Please provide at least one token in the 'tokens.txt' file.",
             color="error",
             print_bool=True,
@@ -46,7 +48,7 @@ class TokenManipulations:
         :return: a list of tokens
         """
         if not os.path.exists("src/tokens.txt"):
-            await utils.custom_print(
+            utils.custom_print(
                 "Error: Please create a 'tokens.txt' file!",
                 color="error",
                 print_bool=True,
@@ -70,14 +72,11 @@ class TokenManipulations:
         return len(findall(self.pattern, lines))
 
 
-class DiscordAPIManipulation:
+class DiscordAPI:
     def __init__(self) -> None:
         self.BASE_URL = "https://discord.com/"
 
-    async def get_me(
-        self,
-        headers: Dict[str, str]
-    ) -> Tuple[int, Any]:
+    async def get_me(self, headers: Dict[str, str]) -> Tuple[int, Any]:
         """
         Get basic user information
 
@@ -406,7 +405,7 @@ class DiscordAPIManipulation:
                 nickname = (
                     friend["nickname"] if friend["nickname"] is not None else user_name
                 )
-                friend_type_str = utils.friend_type.get(friend["type"], "Unknown")
+                friend_type_str = static.friend_type.get(friend["type"], "Unknown")
                 flags_str = ", ".join(user_flags) if user_flags else "No flags"
 
                 relationship_info.append(
@@ -462,7 +461,7 @@ class DiscordAPIManipulation:
 
                 dm_info = (
                     f"\nPrivate channel №{i}\n[ ID ]: {dm['id']}\n"
-                    f"[ Friend type ]: {utils.friend_type.get(dm['type'], 'Unknown')}\n"
+                    f"[ Friend type ]: {static.friend_type.get(dm['type'], 'Unknown')}\n"
                     f"[ Last message id ]: {dm.get('last_message_id', None)}\n"
                     f"[ Channel created at ]: {self.get_account_creation(dm['id'])}\n\n[ Recipients ]:{recipients_info}"
                 )
@@ -476,7 +475,7 @@ class DiscordAPIManipulation:
 
         :param snowflake_id: snowflake id
         :param to_humanly: convert to humanly readable format
-        :return: account creation time  
+        :return: account creation time
         """
         timestamp = (int(snowflake_id) >> 22) + 1420070400000
         creation_time = str(datetime.fromtimestamp(timestamp / 1000.0))
@@ -495,7 +494,7 @@ class DiscordAPIManipulation:
         """
         flags_all: List[str] = []
 
-        for key, value in utils.flags.items():
+        for key, value in static.flags.items():
             if key & public_flags == key:
                 flags_all.append(value)
 

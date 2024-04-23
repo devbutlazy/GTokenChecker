@@ -1,12 +1,13 @@
 import asyncio
 import os
 
-from lib.TokenChecker.main import TokenChecker
-from lib.Utilities.main import TokenManipulations
+from static import startup_text
 import utils
+from lib.checker.main import TokenChecker
+from lib.discord.main import DiscordToken
 
 
-TOKEN_MANIPULATION = TokenManipulations()
+TOKEN = DiscordToken()
 
 
 async def main() -> None:
@@ -16,9 +17,9 @@ async def main() -> None:
     :return: None
     """
     try:
-        await utils.custom_print(utils.startup_text, color="info", print_bool=True)
-        await utils.custom_print("[1] One token (hand-input)", color="info", print_bool=True)
-        await utils.custom_print(
+        utils.custom_print(startup_text, color="info", print_bool=True)
+        utils.custom_print("[1] One token (hand-input)", color="info", print_bool=True)
+        utils.custom_print(
             "[2] Two or more tokens (file)", color="info", print_bool=True
         )
 
@@ -29,10 +30,10 @@ async def main() -> None:
 
                 token = input("Enter token: ")
                 task = asyncio.create_task(TOKEN_CHECKER.check_token(token))
-                await TOKEN_CHECKER.run_tasks([task])
+                await utils.run_tasks([task])
             case 2:
                 tasks = []
-                tokens, _ = await TOKEN_MANIPULATION.get_tokens()
+                tokens, _ = await TOKEN.get_tokens()
 
                 for token in tokens:
                     tasks.append(
@@ -44,12 +45,10 @@ async def main() -> None:
 
                 await asyncio.gather(*tasks)
             case _:
-                await utils.custom_print(
-                    "Invalid choice", color="error", print_bool=True
-                )
+                utils.custom_print("Invalid choice", color="error", print_bool=True)
 
     except ValueError:
-        await utils.custom_print(
+        utils.custom_print(
             "Sorry, an error occurred. Please try again.",
             color="error",
             print_bool=True,
