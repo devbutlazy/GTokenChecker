@@ -2,7 +2,6 @@ from typing import Optional, Union, Literal, Tuple
 from datetime import datetime
 import traceback
 
-import aiofiles
 import asyncio
 import os
 
@@ -77,11 +76,11 @@ def custom_print(
 
     print(colors[color]) if print_bool else None
     if write_file and file:
-        asyncio.shield(write_to_file(info=text, file=file))
+        write_to_file(info=text, file=file)
     return colors[color]
 
 
-async def write_to_file(info: str, file: str) -> None:
+def write_to_file(info: str, file: str) -> None:
     """
     Write text to file
 
@@ -93,8 +92,8 @@ async def write_to_file(info: str, file: str) -> None:
         if not isinstance(file, (str, os.PathLike)):
             raise ValueError("File must be a string or a path-like object")
 
-        async with aiofiles.open(file, "a+", encoding="utf-8", errors="ignore") as opened_file:  # type: ignore
-            await opened_file.write(f"{info}\n")  # type: ignore
+        with open(file, "a+", encoding="utf-8") as file:  # type: ignore
+            file.write(f"{info}\n")  # type: ignore
 
     except BaseException as error:
         traceback.print_exc()
