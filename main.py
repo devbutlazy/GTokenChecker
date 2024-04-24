@@ -58,4 +58,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        asyncio.run(utils.custom_print("Exiting...", color="info"))
+        utils.custom_print("Exiting...", color="info")
