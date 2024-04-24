@@ -26,10 +26,8 @@ async def main() -> None:
         choice = int(input("\033[1;33;48m>>> \033[1;37;0m"))
         match choice:
             case 1:
-                TOKEN_CHECKER = TokenChecker()
-
                 token = input("Enter token: ")
-                task = asyncio.create_task(TOKEN_CHECKER.check_token(token))
+                task = asyncio.create_task(TokenChecker().check_token(token))
                 await utils.run_tasks([task])
             case 2:
                 tasks = []

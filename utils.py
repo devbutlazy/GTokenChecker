@@ -8,7 +8,7 @@ import os
 
 def create_needed(
     time: datetime,
-) -> Union[tuple[str, ...], Tuple[None, None, None, None]]:
+) -> Union[Tuple[str, ...], Tuple[None, None, None, None]]:
     """
     Create needed files
 
@@ -35,7 +35,7 @@ def create_needed(
     return file_paths
 
 
-async def run_tasks(self, tasks: list[asyncio.Task]) -> None:
+async def run_tasks(tasks: list[asyncio.Task]) -> None:
     """
     Run the given tasks
 
@@ -110,7 +110,7 @@ def format_datetime_humanly(
     :param format_string: the format string
     :return: the formatted datetime
     """
-    if isinstance(date, str):  # mypy moment
+    if isinstance(date, str): 
         date = datetime.fromisoformat(date)
     return date.strftime(format_string)
 
