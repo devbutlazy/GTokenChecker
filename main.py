@@ -6,10 +6,6 @@ import utils
 from lib.checker.main import TokenChecker
 from lib.discord.main import DiscordToken
 
-
-TOKEN = DiscordToken()
-
-
 async def main() -> None:
     """
     Start all the tasks, and wait for the input
@@ -31,7 +27,7 @@ async def main() -> None:
                 await utils.run_tasks([task])
             case 2:
                 tasks = []
-                tokens, _ = await TOKEN.get_tokens()
+                tokens, _ = await DiscordToken().get_tokens()
 
                 for token in tokens:
                     tasks.append(

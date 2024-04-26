@@ -1,10 +1,10 @@
-# GTokenChecker
+# GTokenChecker v2.0.0
 
 Advanced && Fast Discord Token Checker Tool
 
 # Important Information
-- Original version author: [Snaky1a](https://github.com/Snaky1a)
-- Rewritten and modified version author: [LazyDev](https://github.com/devbutlazy)
+- [Original version](https://github.com/howryyucks/GTokenChecker) author: [Snaky1a](https://github.com/Snaky1a)
+- [Rewritten and modified version](https://github.com/devbutlazy/GTokenChecker) author: [LazyDev](https://github.com/devbutlazy)
 # Features
 
 - **100 tokens check in 2 seconds**
@@ -41,7 +41,6 @@ python main.py
 - [x] Add authenticator types
 - [x] Hand-input or file tokens opportunity
 - [x] Comments to all functions
-- [ ] Progress bar
 
 
 # What's New

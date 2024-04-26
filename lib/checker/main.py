@@ -165,12 +165,10 @@ class TokenChecker:
                 ) in connections.items()
             )
             if len(connections) >= 1
-            else "No connections in account"
+            else "No connections on account"
         )
 
-        locale_is_empty = locale
-
-        if locale_is_empty:
+        if locale:
             promotions = await self.DiscordAPI.get_promotions(
                 headers=self.headers, locale=locale
             )
